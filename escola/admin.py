@@ -16,8 +16,3 @@ class Cursos(admin.ModelAdmin):
     
 admin.site.register(Curso, Cursos)    
 
-
-
-
-
-
