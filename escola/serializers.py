@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from escola.models import Estudante, Curso
+from escola.models import Estudante, Curso, Matricula
 
 class EstudanteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,3 +11,18 @@ class CursoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Curso 
         fileds = ['id', 'codigo', 'descricao', 'nivel']        
+
+class ListaMatriculasSerializer(serializers.ModelSerializer):
+    curso = serializers.ReadOnlyField(source = 'curso.descricao')
+    periodo = serializers.SerializerMethodField()
+    class Meta:
+        model = Matricula 
+        fields = ['curso', 'periodo']
+    def get_periodo(self, obj):
+        return obj.get_periodo_display()
+    
+class ListaMatriculasCursoSerializer(serializers.ModelSerializer):
+    estudante_nome = serializers.ReadOnlyField(source = 'estudante.nome')
+    class Meta:
+        model = Matricula
+        fields = ['estudante_nome']
