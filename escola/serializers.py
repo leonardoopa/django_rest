@@ -10,7 +10,12 @@ class EstudanteSerializer(serializers.ModelSerializer):
 class CursoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Curso 
-        fileds = ['id', 'codigo', 'descricao', 'nivel']        
+        fileds = ['id', 'codigo', 'descricao', 'nivel']       
+
+class MatriculaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Matricula
+        exclude = []            
 
 class ListaMatriculasSerializer(serializers.ModelSerializer):
     curso = serializers.ReadOnlyField(source = 'curso.descricao')
@@ -26,3 +31,12 @@ class ListaMatriculasCursoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Matricula
         fields = ['estudante_nome']
+
+class ListaMatriculasEstudanteSerializer(serializers.ModelSerializer):
+    curso = serializers.ReadOnlyField(source='curso.descricao')
+    periodo = serializers.SerializerMethodField()
+    class Meta:
+        model = Matricula
+        fields = ['curso','periodo']
+    def get_periodo(self,obj):
+        return obj.get_periodo_display()
