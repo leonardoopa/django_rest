@@ -6,3 +6,5 @@ def nome_invalido(nome):
 
 def celular_invalido(celular):
     return len(celular) != 13
+  
+  
