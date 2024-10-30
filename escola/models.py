@@ -1,5 +1,6 @@
 from enum import Enum
 from django.db import models
+from django.core.validators import MinLengthValidator
 
 class Estudante(models.Model):
     nome = models.CharField(max_length=100)
@@ -19,9 +20,9 @@ class Curso(models.Model):
         ('I', 'Intermediário'),
         ('A', 'Avançado'),
     )
-    codigo = models.CharField(max_length=10)
-    descricao = models.TextField(max_length=100,default='', blank=False)
-    nivel = models.CharField(max_length=1, choices=NIVEL, blank=False, null = False, default='B')
+    codigo = models.CharField(max_length = 10, unique = True, validators = [MinLengthValidator(3)])
+    descricao = models.TextField(max_length = 100,default= '', blank = False)
+    nivel = models.CharField(max_length = 1, choices = NIVEL, blank=  False, null = False, default='B')
 
     def __str__(self):
         return self.codigo
