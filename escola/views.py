@@ -3,6 +3,8 @@ from escola.serializers import EstudanteSerializer, CursoSerializer, ListaMatric
 from rest_framework import viewsets, generics, filters
 from rest_framework import serializers  
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.throttling import UserRateThrottle
+from escola.thottles import MatriculaAnonRateThrottle
 
 class EstudanteViewSet(viewsets.ModelViewSet):
     queryset = Estudante.objects.all().order_by("id")
@@ -17,13 +19,15 @@ class CursoViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     ordering_fields = ['curso']
 
+class MatriculaAnonRateThrottle(MatriculaAnonRateThrottle):
+    rate = '5/day'
 
 class MatriculaViewSet(viewsets.ModelViewSet): 
     queryset = Matricula.objects.all().order_by("id")
-    serializer_class = MatriculaSerializer    
+    serializer_class = MatriculaSerializer   
+    throttle_classes = [UserRateThrottle, MatriculaAnonRateThrottle] 
+
     
-
-
 class ListaMatriculas(generics.ListAPIView):
     def get_queryset(self):
         queryset = Matricula.objects.filter(estudante_id = self.kwargs['pk']).order_by("id")
