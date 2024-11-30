@@ -41,11 +41,13 @@ INSTALLED_APPS = [
     "escola",
     "rest_framework",
     "drf_yasg",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -146,3 +148,10 @@ REST_FRAMEWORK = {
     }, 
 
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8001",
+    "http://localhost:8042",
+    "http://127.0.0.1:8042",
+    "http://localhost:8000",
+]

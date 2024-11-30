@@ -5,6 +5,8 @@ from rest_framework import serializers
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.throttling import UserRateThrottle
 from escola.thottles import MatriculaAnonRateThrottle
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
 
 class EstudanteViewSet(viewsets.ModelViewSet):
     """
@@ -45,6 +47,7 @@ class CursoViewSet(viewsets.ModelViewSet):
     serializer_class = CursoSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     ordering_fields = ['curso']
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 class MatriculaAnonRateThrottle(MatriculaAnonRateThrottle):
     rate = '5/day'
