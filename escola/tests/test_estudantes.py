@@ -14,6 +14,7 @@ class EsudantesTestCase(APITestCase):
             email = 'testedemodelo@gmail.com',
             cpf = '72165846541',
             data_nascimento = '2000-01-01',
+            
             celular = '11 99999-9999'
         )
         self.estudante_02 = Estudante.objects.create(
