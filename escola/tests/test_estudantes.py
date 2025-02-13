@@ -52,4 +52,10 @@ class EsudantesTestCase(APITestCase):
         response = self.client.post(self.url, dados) 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+
+    def test_requisicao_delete_um_estudante(self):    
+        """Teste para verificar a requisição DELETE para um estudante"""
+        response = self.client.delete(f'{self.url}2/')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
         
