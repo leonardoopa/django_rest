@@ -6,25 +6,30 @@ from escola.models import Estudante
 from escola.serializers import EstudanteSerializer
 
 class EsudantesTestCase(APITestCase):
+    fixtures = ['prototipo_banco.json'] 
     def setup (self):
-        self.usuario = User.objects.create_superuser(username='admin', password='admin')
-        url = reverse('Estudante-list')
+        # self.usuario = User.objects.create_superuser(username='admin', password='admin')
+        self.usuario = User.objects.get(username='admin')
+        self.url = reverse('Estudante-list')
         self.client.force_authenticate(self.usuario)
-        self.estudante_01 = Estudante.objects.create(
-            nome = 'Teste de Modelo',
-            email = 'testedemodelo@gmail.com',
-            cpf = '72165846541',
-            data_nascimento = '2000-01-01',
+        # self.estudante_01 = Estudante.objects.create(
+        #     nome = 'Teste de Modelo',
+        #     email = 'testedemodelo@gmail.com',
+        #     cpf = '72165846541',
+        #     data_nascimento = '2000-01-01',
             
-            celular = '11 99999-9999'
-        )
-        self.estudante_02 = Estudante.objects.create(
-            nome = 'Teste de Modelo 2',
-            email = 'testedemodelo2@gmail.com',
-            cpf = '72165526541',
-            data_nascimento = '2000-01-01',
-            celular = '81 99999-9999'
-        )
+        #     celular = '11 99999-9999'
+        # )
+        # self.estudante_02 = Estudante.objects.create(
+        #     nome = 'Teste de Modelo 2',
+        #     email = 'testedemodelo2@gmail.com',
+        #     cpf = '72165526541',
+        #     data_nascimento = '2000-01-01',
+        #     celular = '81 99999-9999'
+        # )
+
+        self.estudante_01 = Estudante.objects.get(pk=1)
+        self.estudante_02 = Estudante.objects.get(pk=2)
 
 
     def test_requisicao_get_para_listar_estudantes(self):
@@ -39,6 +44,7 @@ class EsudantesTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)     
         dados_estudante = Estudante.objects.get(pk=1)
         dados_estudante_serializados = EstudanteSerializer(instance=dados_estudante).data
+        print(f'dados estudante serializados: {dados_estudante_serializados}')
         self.assertEqual(response.data, dados_estudante_serializados)
         
     def test_requisicao_post_para_criar_um_estudante(self):
